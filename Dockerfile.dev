@@ -1,0 +1,30 @@
+# Dockerfile.dev
+FROM node:20-slim
+
+# Set environment variables for pnpm
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+
+# Enable corepack to manage pnpm
+RUN corepack enable
+
+# Set the working directory
+WORKDIR /app
+
+# Copy package.json and pnpm-lock.yaml to the container
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY client/package.json ./client/
+COPY server/package.json ./server/
+
+# Install dependencies
+RUN pnpm install
+
+# Copy the rest of the application code
+COPY . .
+
+# Expose the development ports
+EXPOSE 3000
+EXPOSE 5173
+
+# Start the development server
+CMD ["pnpm", "run", "dev"]
