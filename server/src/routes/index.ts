@@ -1,5 +1,5 @@
 import path from 'node:path';
-import fs from 'node:fs';
+import { readFile } from 'node:fs';
 import debug from 'debug';
 import { Router, static as static_ } from 'express';
 
@@ -24,7 +24,7 @@ if (env.NODE_ENV === 'production') {
     }
     log('Serving React app');
     const indexPath = path.join(viteBuildPath, 'index.html');
-    fs.readFile(indexPath, 'utf8', (err, html) => {
+    readFile(indexPath, 'utf8', (err, html) => {
       if (err) {
         log('Error reading index.html:', err);
         res.status(500).send('Internal Server Error');
