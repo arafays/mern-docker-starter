@@ -1,0 +1,49 @@
+services:
+  # MongoDB
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    restart: always
+    ports:
+      - 27017:27017
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - mern
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+      - MONGO_INITDB_DATABASE=${MONGO_INITDB_DATABASE}
+
+  # application
+  express:
+    build:
+      context: ./
+      dockerfile: Dockerfile.prod
+    container_name: application
+    restart: always
+    ports:
+      - 5173:5173
+      - 3000:3000
+    volumes:
+      - ./:/app
+      - app-node-modules:/app/node_modules
+    networks:
+      - mern
+    depends_on:
+      - mongo
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - JWT_SECRET=secret
+      - MONGO_URI=mongodb://mongo:27017/app
+
+networks:
+  mern:
+    driver: bridge
+
+volumes:
+  mongo-data:
+    driver: local
+  app-node-modules:
+    driver: local

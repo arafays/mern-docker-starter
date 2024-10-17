@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "dev": "DEBUG_COLORS=1 nodemon src/index.ts",
-    "build": "tsc -p tsconfig.json",
-    "start": "DEBUG_COLORS=1 node dist/index.js",
+    "dev": "DEBUG_COLORS=1 NODE_ENV=development nodemon src/index.ts",
+    "build": "NODE_ENV=production tsc -p tsconfig.json",
+    "start": "DEBUG_COLORS=1 NODE_ENV=production node dist/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

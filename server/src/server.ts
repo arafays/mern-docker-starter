@@ -11,11 +11,7 @@ debug.enable('express');
 const log = debug('express');
 const app = express();
 
-debug.enable('db');
-const logDb = debug('db');
-logDb('Loading database...');
 connectDB();
-logDb('Database loaded successfully');
 
 log('Loading middleware...');
 app.use(express.json());

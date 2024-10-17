@@ -6,6 +6,9 @@
     "dev": "pnpm run --stream -r dev",
     "build": "pnpm run -r build",
     "start": "pnpm run -r start",
+    "docker:dev": "docker compose -f docker-compose.dev.yml up --build -d",
+    "docker:prod": "docker compose -f docker-compose.prod.yml up --build -d",
+    "docker:down": "docker compose down",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -18,7 +21,8 @@
   },
   "engines": {
     "node": ">=20",
-    "npm": ">=7"
+    "npm": ">=7",
+    "pnpm": ">=9.12"
   },
   "dependencies": {
     "ts-node": "^10.9.2",

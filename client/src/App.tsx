@@ -1,10 +1,18 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from 'react';
+import reactLogo from './assets/react.svg';
+import viteLogo from '/vite.svg';
+import './App.css';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
+  const [apiData, setApiData] = useState<{ message: string } | null>(null);
+
+  const getApi = async () => {
+    const res = await fetch('/api');
+    const data = await res.json();
+    console.log(data);
+    setApiData(data);
+  };
 
   return (
     <>
@@ -21,6 +29,12 @@ function App() {
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
         </button>
+
+        {apiData ? (
+          <p>{apiData.message}</p>
+        ) : (
+          <button onClick={getApi}>Fetch API</button>
+        )}
         <p>
           Edit <code>src/App.tsx</code> and save to test HMR
         </p>
@@ -29,7 +43,7 @@ function App() {
         Click on the Vite and React logos to learn more
       </p>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
