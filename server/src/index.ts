@@ -1,8 +1,8 @@
 import env from "./env"
-import { createServer } from "./server"
+import { server } from "./server"
 
-const server = createServer()
+const init = server()
 
-server.listen(env.PORT, () => {
+init.listen(env.PORT, () => {
 	console.log("Server is running on http://localhost:3000")
 })

@@ -1,10 +1,6 @@
 # Dockerfile.dev
 FROM node:20-slim
 
-# Set environment variables for pnpm
-ENV PNPM_HOME="/pnpm"
-ENV PATH="$PNPM_HOME:$PATH"
-
 # Enable corepack to manage pnpm
 RUN corepack enable
 

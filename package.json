@@ -8,6 +8,7 @@
 		"start": "pnpm run -r start",
 		"docker:dev": "docker compose -f docker-compose.dev.yml up --build -d",
 		"docker:prod": "docker compose -f docker-compose.prod.yml up --build -d",
+		"docker:down": "docker compose -f docker-compose.dev.yml down",
 		"pretty": "prettier --write \"./**/*.{js,jsx,mjs,cjs,ts,tsx,json}\"",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},

@@ -1,16 +1,20 @@
-import express, { json, urlencoded, type Express } from "express"
+import { createServer } from "node:http"
+import express, { json, urlencoded } from "express"
 import cors from "cors"
 import debug from "debug"
 import helmet from "helmet"
 import morgan from "morgan"
+import { Server } from "socket.io"
 
 import connectDB from "./db"
 import routes from "./routes"
 
-export const createServer = (): Express => {
+export const server = () => {
 	debug.enable("express")
 	const log = debug("express")
 	const app = express()
+	const server = createServer(app)
+	const io = new Server(server)
 
 	connectDB()
 
@@ -27,5 +31,12 @@ export const createServer = (): Express => {
 	app.use(routes)
 	log("Routes loaded successfully")
 
-	return app
+	io.on("connection", (socket) => {
+		log("Socket connected")
+		socket.on("disconnect", () => {
+			log("Socket disconnected")
+		})
+	})
+
+	return server
 }

@@ -27,7 +27,9 @@ services:
       - 3000:3000
     volumes:
       - ./:/app
-      - app-node-modules:/app/node_modules
+      - /app/node_modules
+      - /app/server/node_modules
+      - /app/client/node_modules
     networks:
       - mern
     depends_on:
