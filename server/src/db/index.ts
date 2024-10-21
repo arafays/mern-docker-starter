@@ -9,9 +9,8 @@ const log = debug("app:db")
 const connectDB = async () => {
 	try {
 		log("Connecting to MongoDB..." + env.MONGO_URI)
-		await connect(env.MONGO_URI)
+		await connect(env.MONGO_URI, {})
 		log("MongoDB connected")
-		console.log("MongoDB connected")
 	} catch (err: any) {
 		log("MongoDB connection error:", err.message)
 		process.exit(1)

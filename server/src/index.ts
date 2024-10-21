@@ -4,5 +4,5 @@ import { server } from "./server"
 const init = server()
 
 init.listen(env.PORT, () => {
-	console.log("Server is running on http://localhost:3000")
+	console.log(`Server listening on port ${env.PORT}`)
 })

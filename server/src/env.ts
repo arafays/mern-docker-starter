@@ -12,10 +12,11 @@ config()
 log(`Environment variables loaded successfully`)
 
 const zEnv = z.object({
-	PORT: z.string(),
-	NODE_ENV: z.string(),
-	MONGO_URI: z.string(),
-	JWT_SECRET: z.string(),
+	PORT: z.string().default("3000"),
+	NODE_ENV: z.string().default("development"),
+	MONGO_URI: z.string().default("mongodb://admin:password@localhost:27017"),
+	JWT_SECRET: z.string().optional().default("secret"),
+	PUBLIC_URL: z.string().optional().default("http://localhost:5173"),
 })
 
 let env: TypeOf<typeof zEnv>

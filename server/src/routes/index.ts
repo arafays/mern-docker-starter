@@ -2,6 +2,7 @@ import { readFile } from "node:fs"
 import path from "node:path"
 import { Router, static as static_ } from "express"
 import debug from "debug"
+import { connection } from "mongoose"
 
 import env from "../env"
 
@@ -33,12 +34,47 @@ if (env.NODE_ENV === "production") {
 			res.send(html)
 		})
 	})
+} else {
+	// redirect to 5173 port
+	router.get("*", (req, res, next) => {
+		if (req.path.startsWith("/api")) {
+			return next()
+		}
+
+		res.redirect(env.PUBLIC_URL + req.path)
+	})
 }
 
-router.get("/api", (req, res) => {
+router.get("/api", async (req, res) => {
 	log("GET /api")
-	log(`headers: ${JSON.stringify(req.headers)}`)
-	res.json({ message: "Hello from server!" })
+	log(`query: ${JSON.stringify(req.query)}`)
+	log(`params: ${JSON.stringify(req.params)}`)
+
+	const db = connection.db
+	if (!db) {
+		log("No database connection")
+		res.status(500).send("Internal Server Error")
+		return
+	}
+	const collection = db.collection("test")
+	try {
+		const result = await collection.find().toArray()
+		log("GET /api success")
+
+		if (result.length === 0) {
+			log("Inserting document")
+			await collection.insertOne({ message: "Hello, world!" })
+		} else {
+			// delete all documents
+			log("Deleting all documents")
+			await collection.deleteMany({})
+		}
+
+		res.json(result)
+	} catch (err: any) {
+		log("GET /api error:", err.message)
+		res.status(500).send("Internal Server Error")
+	}
 })
 
 export default router

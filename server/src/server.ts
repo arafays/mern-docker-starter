@@ -4,17 +4,16 @@ import cors from "cors"
 import debug from "debug"
 import helmet from "helmet"
 import morgan from "morgan"
-import { Server } from "socket.io"
 
 import connectDB from "./db"
 import routes from "./routes"
+import { setupSocket } from "./socket"
 
 export const server = () => {
 	debug.enable("express")
 	const log = debug("express")
 	const app = express()
 	const server = createServer(app)
-	const io = new Server(server)
 
 	connectDB()
 
@@ -31,12 +30,7 @@ export const server = () => {
 	app.use(routes)
 	log("Routes loaded successfully")
 
-	io.on("connection", (socket) => {
-		log("Socket connected")
-		socket.on("disconnect", () => {
-			log("Socket disconnected")
-		})
-	})
+	setupSocket(server)
 
 	return server
 }
