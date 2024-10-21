@@ -63,6 +63,7 @@ router.get("/api", async (req, res) => {
 
 		if (result.length === 0) {
 			log("Inserting document")
+
 			await collection.insertOne({ message: "Hello, world!" })
 		} else {
 			// delete all documents

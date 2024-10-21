@@ -1,5 +1,5 @@
 import debug from "debug"
-import { connect } from "mongoose"
+import { connect, connection } from "mongoose"
 
 import env from "../env"
 
@@ -9,8 +9,12 @@ const log = debug("app:db")
 const connectDB = async () => {
 	try {
 		log("Connecting to MongoDB..." + env.MONGO_URI)
-		await connect(env.MONGO_URI, {})
-		log("MongoDB connected")
+		await connect(env.MONGO_URI, {
+			dbName: env.MONGO_DATABASE,
+		})
+		log(
+			`MongoDB connected to: ${env.MONGO_URI}/${(await connection.db?.databaseName) ?? "DB Name NOT FOUND"}`
+		)
 	} catch (err: any) {
 		log("MongoDB connection error:", err.message)
 		process.exit(1)

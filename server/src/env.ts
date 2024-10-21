@@ -15,6 +15,7 @@ const zEnv = z.object({
 	PORT: z.string().default("3000"),
 	NODE_ENV: z.string().default("development"),
 	MONGO_URI: z.string().default("mongodb://admin:password@localhost:27017"),
+	MONGO_DATABASE: z.string().default("test"),
 	JWT_SECRET: z.string().optional().default("secret"),
 	PUBLIC_URL: z.string().optional().default("http://localhost:5173"),
 })
