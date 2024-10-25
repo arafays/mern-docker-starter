@@ -21,6 +21,12 @@ export const server = () => {
 	app.use(express.json())
 	app.use(helmet())
 	app.use(cors())
+
+
+	if (process.env.NODE_ENV === "development") {
+		app.use(cors({ origin: "http://localhost:5173" }))
+	}
+
 	app.use(urlencoded({ extended: true }))
 	app.use(json())
 	app.use(morgan("dev"))
@@ -30,7 +36,9 @@ export const server = () => {
 	app.use(routes)
 	log("Routes loaded successfully")
 
+	log("Setting up socket...")
 	setupSocket(server)
+	log("Socket setup successfully")
 
 	return server
 }
